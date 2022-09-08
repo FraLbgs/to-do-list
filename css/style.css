@@ -1,6 +1,16 @@
 * {
     padding: 0;
     margin: 0;
+    box-sizing: border-box;
+}
+
+a{
+    text-decoration: none;
+    color :black;
+}
+
+body{
+    margin: 0 5px;
 }
 
 .header{
@@ -16,10 +26,66 @@
     font-size: 50px;
 }
 
-.tasks{
+.container{
+    margin-top: 20px;
 
 }
 
+/* .sub-ttl{
+
+} */
+
+.tasks{
+    margin: 5px 0;
+}
+
 .task{
-    
+padding: 5px;
+}
+
+.list-content{
+    display: flex;
+    justify-content: space-between;
+}
+
+.new-task,
+.content-btn{
+    text-align: right;
+    margin-top: 10px;
+}
+
+.link-new-task,
+.btn-return{
+    padding: 3px;
+    border-radius: 5px;
+    border: solid rgba(128, 128, 128, 0.6) 2px;
+    text-decoration: none;
+    color: black;
+    background-color: rgba(128, 128, 128, 0.4);
+    box-shadow: 3px 3px 10px grey;
+}
+
+.form{
+    background-color: rgba(128, 128, 128, 0.3);
+}
+
+.field{
+    padding: 10px;
+}
+
+.label{
+    display: block;
+    font-size: 18px;
+}
+
+.input{
+    display: block;
+    width: 100%;
+    height: 30px;
+    font-size: 15px;
+    border-radius: 5px;
+}
+
+.form-err{
+    color: red;
 }
