@@ -11,6 +11,7 @@ if(isset($_GET['action']) && $_GET['action'] === "done" && isset($_GET['idtask']
     $query->execute([
         "idtasks" => $_GET['idtask']
     ]);
-    header("location:index.php");
 }
+header("location:index.php");
+exit;
 ?>

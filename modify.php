@@ -11,7 +11,7 @@ $result[0]['color'] = "#".$result[0]['color'];
 // var_dump($_POST);
 if(isset($_POST['color'])) $_POST['color'] = str_replace("#", "", $_POST['color']);
 
-if(isset($_POST['submit']) && verifyForm($_POST['description'], $_POST['date'], $_POST['color'], $_POST['priority']) === true){
+if(isset($_POST['submit']) && verifyForm($_POST['description'], $_POST['date'], $_POST['color']) === true){
     $query = $dbCo->prepare("UPDATE  tasks
     SET description = :description, date_reminder = :date, color = :color, priority = :priority
     WHERE id_tasks = :idTask;");
@@ -23,8 +23,9 @@ if(isset($_POST['submit']) && verifyForm($_POST['description'], $_POST['date'], 
         "idTask" => intval($_GET['idtask'])
     ]);
     var_dump($query);
+    header(("location:index.php"));
   }
-  else{echo "erreur";}
+  // else{echo "erreur";}
 
 ?>
 
@@ -51,6 +52,5 @@ if(isset($_POST['submit']) && verifyForm($_POST['description'], $_POST['date'], 
           <input class="input" type="submit" name="submit" value="Valider les données">
       </div>
     </form>
-    <div class="content-btn"><a class="btn-return" href="index.php">Retour à la liste</a></div>
 </div>
 
