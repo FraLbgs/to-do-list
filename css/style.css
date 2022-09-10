@@ -48,14 +48,25 @@ padding: 5px;
     justify-content: space-between;
 }
 
-.new-task,
-.content-btn{
+/* .up-down{
+    display: flex;
+    flex-direction: column;
+} */
+
+.up, .down{
+display: block;
+}
+
+.img-up-down{
+    width: 15px;
+}
+
+.new-task{
     text-align: right;
     margin-top: 10px;
 }
 
-.link-new-task,
-.btn-return{
+.link-new-task{
     padding: 3px;
     border-radius: 5px;
     border: solid rgba(128, 128, 128, 0.6) 2px;
