@@ -1,6 +1,6 @@
 <?php 
 
-function getHtmlFromArray(array $array, string $classUl = null, string $classLi = null): string
+function getHtmlFromArrayToDo(array $array, string $classUl = null, string $classLi = null): string
 {
     if ($classUl) $classUl = " class=\"$classUl\"";
     if ($classLi) $classLi = " class=\"$classLi\"";
@@ -14,18 +14,37 @@ function getHtmlFromArray(array $array, string $classUl = null, string $classLi 
       <p class='desc'>".$v['date_reminder']."</p>
     </div>
     </div>
-    <div class='links'><a href ='modify.php?action=modify&idtask=".$v['id_tasks']."'>Modifier</a>
-    <a href ='action.php?action=delete&idtask=".$v['id_tasks']."'>Supprimer</a>
-    <a href ='action.php?action=done&idtask=".$v['id_tasks']."'>Terminer</a></div></li>";
+    <div class='date-alert'>".verifyDate($v['date_reminder'])."</div>
+    <div class='links'>
+      <a class='link' href ='modify.php?action=modify&idtask=".$v['id_tasks']."'><img class='img-link' src='img/modif.png' alt='modifier'></a>
+      <a class='link' href ='action.php?action=delete&idtask=".$v['id_tasks']."'><img class='img-link' src='img/cross.png' alt='supprimer'></a>
+      <a class='link' href ='action.php?action=done&idtask=".$v['id_tasks']."'><img class='img-link' src='img/check.png' alt='terminer'></a>
+    </div></li>";
     return "<ul$classUl>" . implode("", array_map($valueToLi, $array)) . "</ul>";
 }
 
-function verifyForm(string $desc, string $date, string $color){
+function getHtmlFromArrayDone(array $array, string $classUl = null, string $classLi = null): string
+{
+    if ($classUl) $classUl = " class=\"$classUl\"";
+    if ($classLi) $classLi = " class=\"$classLi\"";
+    $valueToLi = fn ($v) => "<li$classLi>
+      <p class='a-voir'>".$v['description']."</p>
+      <p class='a-voir'>".$v['date_reminder']."</p>
+    </li>";
+    return "<ul$classUl>" . implode("", array_map($valueToLi, $array)) . "</ul>";
+}
+
+function verifyForm(string $desc, string $date, string $color) :bool{
     if(strlen($desc) > 255 || $date < date("Y-m-d") || preg_match('/^[a-f0-9]{6}$/', $color) !== 1){
       return false;
     }
     return true;
   }
 
-  
+function verifyDate(string $d) :string{
+  if($d === date("Y-m-d")) return "Dernier délai : Aujourd'hui";
+  return "";
+}
+
+
 ?>

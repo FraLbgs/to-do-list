@@ -22,7 +22,7 @@ if (isset($_POST['color'])) $_POST['color'] = str_replace("#", "", $_POST['color
       <input class="input" type="submit" name="submit" value="Valider les données">
     </div>
   </form>
-  <div class="content-btn"><a class="btn-return" href="index.php">Retour à la liste</a></div>
+  <!-- <div class="content-btn"><a class="btn-return" href="index.php">Retour à la liste</a></div> -->
 </div>
 
 <?php

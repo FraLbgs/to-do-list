@@ -4,7 +4,7 @@ include_once "includes/_header.php";
 require_once "includes/_functions.php";
 
 
-$query = $dbCo->prepare("SELECT description, date_reminder, color, priority FROM tasks WHERE id_tasks =".$_GET['idtask'].";");
+$query = $dbCo->prepare("SELECT description, date_reminder, color FROM tasks WHERE id_tasks =".$_GET['idtask'].";");
 $query->execute();
 $result = $query->fetch();
 $result['color'] = "#".$result['color'];
@@ -13,17 +13,17 @@ if(isset($_POST['color'])) $_POST['color'] = str_replace("#", "", $_POST['color'
 
 if(isset($_POST['submit']) && verifyForm($_POST['description'], $_POST['date'], $_POST['color']) === true){
     $query = $dbCo->prepare("UPDATE  tasks
-    SET description = :description, date_reminder = :date, color = :color, priority = :priority
+    SET description = :description, date_reminder = :date, color = :color
     WHERE id_tasks = :idTask;");
     $query->execute([
         "description" => $_POST['description'],
         "date" => $_POST['date'],
         "color" => $_POST['color'],
-        "priority" => $_POST['priority'],
         "idTask" => intval($_GET['idtask'])
     ]);
     var_dump($query);
-    header(("location:index.php"));
+    header(("location:index.php?action=3"));
+    exit;
   }
   // else{echo "erreur";}
 
@@ -40,11 +40,11 @@ if(isset($_POST['submit']) && verifyForm($_POST['description'], $_POST['date'], 
           <input class="input" type="date" name="date" required value="<?=$result['date_reminder']?>"></label>
       </div>
         <div class="field"><label class="label">Couleur : <?php if(isset($_POST['color']) && preg_match('/^[a-f0-9]{6}$/', $_POST['color']) !== 1) echo "<span class='form-err'>*Code hexa invalide</span><br>";?><br>
-        <input class="input" type="color" name="color" required value="<?=$result['color']?>"></label>
+        <input class="input" type="color" value="#ffffff" name="color" required value="<?=$result['color']?>"></label>
       </div>
-        <div class="field"><label class="label">Priorité : (chiffre entre 1 et 5) : <?php if(isset($_POST['priority']) && preg_match('/^[1-5]{1}$/', $_POST['priority']) !== 1) echo "<span class='form-err'>*Veuillez entrer un chiffre entre 1 et 5</span><br>";?><br> 
+        <!-- <div class="field"><label class="label">Priorité : (chiffre entre 1 et 5) : <?php if(isset($_POST['priority']) && preg_match('/^[1-5]{1}$/', $_POST['priority']) !== 1) echo "<span class='form-err'>*Veuillez entrer un chiffre entre 1 et 5</span><br>";?><br> 
         <input class="input" type="number" name="priority" required value="<?=$result['priority']?>"></label>
-      </div>
+      </div> -->
       <!-- <div class="field"><label class="label">Votre identifiant : <br>
         <input class="input" type="number" name="id"></label>
       </div> -->

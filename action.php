@@ -92,7 +92,7 @@ function returnMessage() : string {
     if($isDone && $isDone2){
         if($action === "done") return "?action=0";
         else if($action === "delete") return "?action=1";
-        else return "?action=3";
+        else return "?action=4";
     }
     else{
         return "?action=2";
