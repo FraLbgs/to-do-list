@@ -15,50 +15,92 @@ if(isset($_GET['action']) && $_GET['action'] === "done" && isset($_GET['idtask']
 
     $query1 = $dbCo->prepare("UPDATE tasks
     SET done = 1, priority = 0
-    WHERE id_tasks = :idtasks;");
-    $query1->execute([
-        "idtasks" => $_GET['idtask']
+    WHERE id_tasks = :idtask;");
+    $isDone = $query1->execute([
+        "idtask" => $_GET['idtask']
     ]);
 
     $query2 = $dbCo->prepare("UPDATE tasks
     SET priority = priority-1
     WHERE priority > $prio AND done = 0;");
-    $query2->execute();
+    $isDone2 = $query2->execute();
+
+    $action = "done";
+
+    var_dump($isDone, $isDone2);
+}
+
+else if(isset($_GET['action']) && $_GET['action'] === "delete" && isset($_GET['idtask'])){
+
+    $query1 = $dbCo->prepare("DELETE FROM tasks
+    WHERE id_tasks = :idtask;");
+    $isDone = $query1->execute([
+        "idtask" => $_GET['idtask']
+    ]);
+
+    $query2 = $dbCo->prepare("UPDATE tasks
+    SET priority = priority-1
+    WHERE priority > $prio AND done = 0;");
+    $isDone2 = $query2->execute();
+
+    $action = "delete";
+
 }
 
 
-if(isset($_GET['action']) && $_GET['action'] === "up" && isset($_GET['idtask'])){
+else if(isset($_GET['action']) && $_GET['action'] === "up" && isset($_GET['idtask'])){
     
     $query1 = $dbCo->prepare("UPDATE tasks
     SET priority = priority-1
     WHERE priority = $prio AND done = 0;");
-    $query1->execute();
+    $isDone = $query1->execute();
     
     $query2 = $dbCo->prepare("UPDATE tasks
     SET priority = priority+1
     WHERE priority = $prio-1 AND id_tasks != :idtask AND done = 0;");
-    $query2->execute([
+    $isDone2 = $query2->execute([
         "idtask" => $_GET['idtask']
     ]);
+
+    $action = "up";
 }
 
 
-if(isset($_GET['action']) && $_GET['action'] === "down" && isset($_GET['idtask'])){
+else if(isset($_GET['action']) && $_GET['action'] === "down" && isset($_GET['idtask'])){
 
     $query1 = $dbCo->prepare("UPDATE tasks
     SET priority = priority+1
     WHERE priority = $prio AND done = 0;");
-    $query1->execute();
+    $isDone = $query1->execute();
 
     $query2 = $dbCo->prepare("UPDATE tasks
     SET priority = priority-1
     WHERE priority = $prio+1 AND id_tasks != :idtask AND done = 0;");
-    $query2->execute([
+    $isDone2 = $query2->execute([
         "idtask" => $_GET['idtask']
     ]);
 
+    $action = "down";
+
 }
 
-header("location:index.php");
+function returnMessage() : string {
+    global $action;
+    global $isDone;
+    global $isDone2;
+
+    if($isDone && $isDone2){
+        if($action === "done") return "?action=0";
+        else if($action === "delete") return "?action=1";
+        else return "?action=3";
+    }
+    else{
+        return "?action=2";
+    }
+}
+
+$res = returnMessage();
+
+header("location:index.php$res");
 exit;
 ?>

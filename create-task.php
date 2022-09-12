@@ -16,7 +16,7 @@ if (isset($_POST['color'])) $_POST['color'] = str_replace("#", "", $_POST['color
         <input class="input" type="date" name="date" required></label>
     </div>
     <div class="field"><label class="label">Couleur : <?php if (isset($_POST['color']) && preg_match('/^[a-f0-9]{6}$/', $_POST['color']) !== 1) echo "<span class='form-err'>*Code hexa invalide</span><br>"; ?><br>
-        <input class="input" type="color" name="color" required></label>
+        <input class="input" type="color" name="color" value="#ffffff" required></label>
     </div>
     <div class="field">
       <input class="input" type="submit" name="submit" value="Valider les données">
@@ -30,7 +30,7 @@ $_POST = array_map("strip_tags", $_POST);
 
 $query1 = $dbCo->query("SELECT MAX(priority) AS max_prio FROM tasks WHERE id_users = 1;");
 $res = $query1->fetch();
-var_dump($res);
+// var_dump($res);
 
 if (isset($_POST['submit']) && verifyForm($_POST['description'], $_POST['date'], $_POST['color']) === true) {
   $query2 = $dbCo->prepare("INSERT INTO tasks (description, date_reminder, color, priority, id_users) VALUES

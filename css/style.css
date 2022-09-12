@@ -31,6 +31,14 @@ body{
 
 }
 
+.hidden{
+    text-align: center;
+    color: red;
+    background-color: rgba(128, 128, 128, 0.4);
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
 /* .sub-ttl{
 
 } */
@@ -53,20 +61,35 @@ padding: 5px;
     flex-direction: column;
 } */
 
+.left-content{
+    display: flex;
+    align-items: center;
+}
+
 .up, .down{
-display: block;
+    display: block;
 }
 
 .img-up-down{
     width: 15px;
 }
 
-.new-task{
+.desc{
+    padding-left: 10px;
+}
+
+.links{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.new-task, .content-btn{
     text-align: right;
     margin-top: 10px;
 }
 
-.link-new-task{
+.link-new-task, .btn-return{
     padding: 3px;
     border-radius: 5px;
     border: solid rgba(128, 128, 128, 0.6) 2px;
