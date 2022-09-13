@@ -29,6 +29,7 @@ try {
 <body>
     <header class="header">
         <h1 class="title">To Do List</h1>
+        <button class="nav-burger"><i class="fa fa-bars" aria-hidden="true"></i></button>
         <nav>
             <ul class="nav-list">
                 <li class="nav-item"><a class="nav-link" href='index.php'>Accueil</a></li>

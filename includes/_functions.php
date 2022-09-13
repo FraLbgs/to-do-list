@@ -65,4 +65,20 @@ function returnMessage() : string {
   }
 }
 
+function displayThemes(array $array):string {
+    $themes = "<fieldset><legend>Choisissez vos thèmes</legend>";
+
+    // print_r($array);
+    
+    foreach($array as $t){
+        $themes.= "<label>
+        <input type='checkbox' id='".$t['name_theme']."' name='theme[]' value='".$t['id_themes']."'>".$t['name_theme']."
+        </label><br/>";
+    }
+    
+    return $themes."</fieldset>";
+
+ 
+}
+
 ?>

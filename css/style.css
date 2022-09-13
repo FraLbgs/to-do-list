@@ -1,3 +1,4 @@
+@import url(font-awesome.min.css);
 * {
     padding: 0;
     margin: 0;
@@ -13,10 +14,17 @@ ul{
     list-style: none;
 }
 
+button {
+    border: none;
+    background: none;
+    width: 50px;
+}
+
 body{
     /* margin: 0 5px; */
     margin: 0 auto;
     max-width: 900px;
+    background-color: rgba(200,200,200,0.3);
 }
 
 .header{
@@ -34,7 +42,7 @@ body{
 }
 
 .nav-list{
-    display: flex;
+    display: none;
 }
 
 .nav-item{
@@ -51,6 +59,30 @@ body{
 .nav-link{
     font-size: 20px;
     color: mistyrose;
+}
+
+
+
+@media screen and (max-width: 767px){
+    .nav-list{
+        position: absolute;
+        top: -100vh;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        background-color: rgb(185, 15, 120);
+        height: 100vh;
+        transition: top .3s ease;
+    }
+}
+
+@media screen and (min-width: 768px){
+    .nav-list{
+        display: flex;
+    }
+    button {
+        display: none;
+    }
 }
 
 .container{

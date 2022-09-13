@@ -3,6 +3,9 @@ $ttl = "Création de tâches";
 include_once "includes/_header.php";
 require_once "includes/_functions.php";
 if (isset($_POST['color'])) $_POST['color'] = str_replace("#", "", $_POST['color']);
+
+$queryThemes = $dbCo->query("SELECT id_themes, name_theme FROM themes;");
+$themes = $queryThemes->fetchAll();
 ?>
 
 <div class="container">
@@ -19,30 +22,42 @@ if (isset($_POST['color'])) $_POST['color'] = str_replace("#", "", $_POST['color
         <input class="input" type="color" name="color" value="#ffffff" required></label>
     </div>
     <div class="field">
+      <?=displayThemes($themes);?>
+    </div>
+    <div class="field">
       <input class="input" type="submit" name="submit" value="Valider les données">
     </div>
   </form>
-  <!-- <div class="content-btn"><a class="btn-return" href="index.php">Retour à la liste</a></div> -->
 </div>
 
 <?php
-$_POST = array_map("strip_tags", $_POST);
+var_dump($_POST);
+// $_POST = array_map(recursiveStripTags($_POST), $_POST);
 
-$query1 = $dbCo->query("SELECT MAX(priority) AS max_prio FROM tasks WHERE id_users = 1;");
-$res = $query1->fetch();
-// var_dump($res);
+// function recursiveStripTags(array|string $var) :array{
+//   recursiveStripTags($var);
+//   if(is_array($var)) 
+//   foreach($var as $v){
+//     strip_tags($v);
+//   }
+// }
 
-if (isset($_POST['submit']) && verifyForm($_POST['description'], $_POST['date'], $_POST['color']) === true) {
-  $query2 = $dbCo->prepare("INSERT INTO tasks (description, date_reminder, color, priority, id_users) VALUES
-      (:description, :date, :color, :priority, :id);");
-  $query2->execute([
-    "description" => $_POST['description'],
-    "date" => $_POST['date'],
-    "color" => $_POST['color'],
-    "priority" => $res['max_prio']+1,
-    "id" => 1
-  ]);
-}
+
+// $query1 = $dbCo->query("SELECT MAX(priority) AS max_prio FROM tasks WHERE id_users = 1;");
+// $res = $query1->fetch();
+
+// if (isset($_POST['submit']) && verifyForm($_POST['description'], $_POST['date'], $_POST['color']) === true) {
+//   $query2 = $dbCo->prepare("INSERT INTO tasks (description, date_reminder, color, priority, id_users) VALUES
+//       (:description, :date, :color, :priority, :id);");
+//   $query2->execute([
+//     "description" => $_POST['description'],
+//     "date" => $_POST['date'],
+//     "color" => $_POST['color'],
+//     "priority" => $res['max_prio'] + 1,
+//     "id" => 1
+//   ]);
+// }
+
 ?>
 
 </body>
