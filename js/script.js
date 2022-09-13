@@ -16,6 +16,9 @@ const message = document.getElementById("confirm-msg");
 //       }, "3000");
 // }
 
-    setTimeout(() => {
-        message.innerText = "";
-      }, "3000");
+if(message.innerText !== ""){
+  setTimeout(() => {
+    message.innerText = "";
+    history.replaceState(null, document.title, 'index.php');
+    }, "3000");
+}

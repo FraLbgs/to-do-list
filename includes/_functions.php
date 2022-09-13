@@ -27,10 +27,13 @@ function getHtmlFromArrayDone(array $array, string $classUl = null, string $clas
 {
     if ($classUl) $classUl = " class=\"$classUl\"";
     if ($classLi) $classLi = " class=\"$classLi\"";
-    $valueToLi = fn ($v) => "<li$classLi>
-      <p class='a-voir'>".$v['description']."</p>
+    $valueToLi = fn ($v) => "<li$classLi><div class='list-content'>
+      <div class='left-content'>
+        <a class='link' href ='action.php?action=return&idtask=".$v['id_tasks']."'><img class='img-link' src='img/back.png' alt='retour'></a>
+        <p class='a-voir'>".$v['description']."</p>
+      </div>
       <p class='a-voir'>".$v['date_reminder']."</p>
-    </li>";
+    </div></li>";
     return "<ul$classUl>" . implode("", array_map($valueToLi, $array)) . "</ul>";
 }
 

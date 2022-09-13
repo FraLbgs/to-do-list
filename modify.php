@@ -22,7 +22,7 @@ if(isset($_POST['submit']) && verifyForm($_POST['description'], $_POST['date'], 
         "idTask" => intval($_GET['idtask'])
     ]);
     var_dump($query);
-    header(("location:index.php?action=3"));
+    header(("location:index.php?action=4"));
     exit;
   }
   // else{echo "erreur";}
@@ -40,7 +40,7 @@ if(isset($_POST['submit']) && verifyForm($_POST['description'], $_POST['date'], 
           <input class="input" type="date" name="date" required value="<?=$result['date_reminder']?>"></label>
       </div>
         <div class="field"><label class="label">Couleur : <?php if(isset($_POST['color']) && preg_match('/^[a-f0-9]{6}$/', $_POST['color']) !== 1) echo "<span class='form-err'>*Code hexa invalide</span><br>";?><br>
-        <input class="input" type="color" value="#ffffff" name="color" required value="<?=$result['color']?>"></label>
+        <input class="input" type="color" name="color" required value="<?=$result['color']?>"></label>
       </div>
         <!-- <div class="field"><label class="label">Priorité : (chiffre entre 1 et 5) : <?php if(isset($_POST['priority']) && preg_match('/^[1-5]{1}$/', $_POST['priority']) !== 1) echo "<span class='form-err'>*Veuillez entrer un chiffre entre 1 et 5</span><br>";?><br> 
         <input class="input" type="number" name="priority" required value="<?=$result['priority']?>"></label>

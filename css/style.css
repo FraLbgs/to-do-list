@@ -177,9 +177,9 @@ height: 50px;
 }
 
 .done-li{
-    display: flex;
+    /* display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: center; */
     height: 30px;
     background-color: rgb(217, 194, 194);
 }

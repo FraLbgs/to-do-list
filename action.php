@@ -84,6 +84,25 @@ else if(isset($_GET['action']) && $_GET['action'] === "down" && isset($_GET['idt
 
 }
 
+else if(isset($_GET['action']) && $_GET['action'] === "return" && isset($_GET['idtask'])){
+
+$query1 = $dbCo->prepare("SELECT MAX(priority) AS max_prio FROM tasks WHERE id_users = 1;");
+$isDone = $query1->execute();
+$res = $query1->fetch();
+// var_dump($res);
+
+$query2 = $dbCo->prepare("UPDATE tasks
+SET done = 0, priority = :priority
+WHERE id_tasks = :idtask;");
+$isDone2 = $query2->execute([
+"priority" => $res['max_prio']+1,
+"idtask" => $_GET['idtask']
+]);
+
+$action = "return";
+
+}
+
 function returnMessage() : string {
     global $action;
     global $isDone;
@@ -92,10 +111,11 @@ function returnMessage() : string {
     if($isDone && $isDone2){
         if($action === "done") return "?action=0";
         else if($action === "delete") return "?action=1";
-        else return "?action=4";
+        else if($action === "return") return "?action=2";
+        else return "?action=3";
     }
     else{
-        return "?action=2";
+        return "?action=5";
     }
 }
 

@@ -39,7 +39,7 @@ if (isset($_POST['submit']) && verifyForm($_POST['description'], $_POST['date'],
     "description" => $_POST['description'],
     "date" => $_POST['date'],
     "color" => $_POST['color'],
-    "priority" => $res['max_prio'],
+    "priority" => $res['max_prio']+1,
     "id" => 1
   ]);
 }
