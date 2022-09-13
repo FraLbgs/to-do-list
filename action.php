@@ -49,38 +49,47 @@ else if(isset($_GET['action']) && $_GET['action'] === "delete" && isset($_GET['i
 
 
 else if(isset($_GET['action']) && $_GET['action'] === "up" && isset($_GET['idtask'])){
-    
-    $query1 = $dbCo->prepare("UPDATE tasks
-    SET priority = priority-1
-    WHERE priority = $prio AND done = 0;");
-    $isDone = $query1->execute();
-    
-    $query2 = $dbCo->prepare("UPDATE tasks
-    SET priority = priority+1
-    WHERE priority = $prio-1 AND id_tasks != :idtask AND done = 0;");
-    $isDone2 = $query2->execute([
-        "idtask" => $_GET['idtask']
-    ]);
 
-    $action = "up";
+    if($prio != 1){
+        $query1 = $dbCo->prepare("UPDATE tasks
+        SET priority = priority-1
+        WHERE priority = $prio AND done = 0;");
+        $isDone = $query1->execute();
+        
+        $query2 = $dbCo->prepare("UPDATE tasks
+        SET priority = priority+1
+        WHERE priority = $prio-1 AND id_tasks != :idtask AND done = 0;");
+        $isDone2 = $query2->execute([
+            "idtask" => $_GET['idtask']
+        ]);
+    
+        $action = "up";
+    }
+    
 }
 
 
 else if(isset($_GET['action']) && $_GET['action'] === "down" && isset($_GET['idtask'])){
 
-    $query1 = $dbCo->prepare("UPDATE tasks
-    SET priority = priority+1
-    WHERE priority = $prio AND done = 0;");
-    $isDone = $query1->execute();
+    $queryMP = $dbCo->prepare("SELECT MAX(priority) AS max_prio FROM tasks WHERE id_users = 1;");
+    $queryMP->execute();
+    $MP = $queryMP->fetchColumn();
 
-    $query2 = $dbCo->prepare("UPDATE tasks
-    SET priority = priority-1
-    WHERE priority = $prio+1 AND id_tasks != :idtask AND done = 0;");
-    $isDone2 = $query2->execute([
-        "idtask" => $_GET['idtask']
-    ]);
+    if($prio != $MP){
+        $query1 = $dbCo->prepare("UPDATE tasks
+        SET priority = priority+1
+        WHERE priority = $prio AND done = 0;");
+        $isDone = $query1->execute();
 
-    $action = "down";
+        $query2 = $dbCo->prepare("UPDATE tasks
+        SET priority = priority-1
+        WHERE priority = $prio+1 AND id_tasks != :idtask AND done = 0;");
+        $isDone2 = $query2->execute([
+            "idtask" => $_GET['idtask']
+        ]);
+
+        $action = "down";
+    }
 
 }
 
@@ -101,22 +110,6 @@ $isDone2 = $query2->execute([
 
 $action = "return";
 
-}
-
-function returnMessage() : string {
-    global $action;
-    global $isDone;
-    global $isDone2;
-
-    if($isDone && $isDone2){
-        if($action === "done") return "?action=0";
-        else if($action === "delete") return "?action=1";
-        else if($action === "return") return "?action=2";
-        else return "?action=3";
-    }
-    else{
-        return "?action=5";
-    }
 }
 
 $res = returnMessage();
