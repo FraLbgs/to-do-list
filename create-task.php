@@ -32,7 +32,7 @@ $themes = $queryThemes->fetchAll();
 
 <?php
 $_POST = recursiveStripTags($_POST);
-// var_dump($_POST['theme']);
+var_dump($_POST['theme']);
 
 
 $query1 = $dbCo->query("SELECT MAX(priority) AS max_prio FROM tasks WHERE id_users = 1;");
@@ -65,6 +65,7 @@ if(isset($_POST['theme'])){
 
 ?>
 
+<script src="js/create.js?<?=time()?>"></script>
 </body>
 
 </html>

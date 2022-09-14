@@ -12,6 +12,7 @@ function getHtmlFromArrayToDo(array $array, string $classUl = null, string $clas
     <div>
       <p class='desc'>".$v['description']."</p>
       <p class='desc'>".$v['date_reminder']."</p>
+      <p class='desc'>".$v['themes']."</p>
     </div>
     </div>
     <div class='date-alert'>".verifyDate($v['date_reminder'])."</div>
@@ -66,14 +67,13 @@ function returnMessage() : string {
 }
 
 function displayThemes(array $array):string {
-    $themes = "<fieldset><legend>Choisissez vos thèmes</legend>";
+    $themes = "<fieldset id='fieldset'><legend>Choisissez vos thèmes</legend>";
     
     foreach($array as $t){
         $themes.= "<label>
-        <input type='checkbox' id='".$t['name_theme']."' name='theme[]' value='".$t['id_themes']."'>".$t['name_theme']."
-        </label><br/>";
+        <input type='checkbox' name='theme[]' value='".$t['id_themes']."'>".$t['name_theme']."</label><br/>";
     }
-    
+    $themes .= "<input id='add-theme' type='text' name='new'> <button type ='button' class='btn-add-theme' id='btn-add-theme'>+</button>";
     return $themes."</fieldset>";
 }
 

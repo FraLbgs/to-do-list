@@ -12,7 +12,13 @@ $actions =[
     5 => "Action annulée, une erreur s'est produite"
 ];
 
-$query = $dbCo->prepare("SELECT id_tasks, description, color, date_reminder FROM tasks WHERE done = 0 ORDER BY priority;");
+$query = $dbCo->prepare("SELECT id_tasks, description, color, date_reminder, GROUP_CONCAT(name_theme) AS themes
+FROM tasks 
+LEFT JOIN have_theme USING (id_tasks)
+LEFT JOIN themes USING (id_themes)
+WHERE done = 0
+GROUP BY id_tasks
+ORDER BY priority;");
 $query->execute();
 $result = $query->fetchAll();
 

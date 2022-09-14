@@ -1,14 +1,30 @@
 <?php
 $ttl = "test";
-include_once "includes/_header.php";
 require_once "includes/_functions.php";
 
-$query = $dbCo->prepare("SELECT priority FROM tasks WHERE id_tasks = :idtasks AND done = 0;");
-$query->execute([
-    "idtasks" => $_GET['idtask']
-]);
-$res = $query->fetch();
-$prio = $res["priority"];
+try {
+    $dbCo = new PDO(
+        'mysql:host=localhost;dbname=to_do_list;charset=utf8',
+        'Franck',
+        'onsenfout'
+    );
+    $dbCo->setAttribute(
+        PDO::ATTR_DEFAULT_FETCH_MODE,
+        PDO::FETCH_ASSOC
+    );
+} catch (Exception $e) {
+    die("Unable to connect to the database.
+        " . $e->getMessage());
+}
+
+if (isset($_GET['idtask'])){
+    $query = $dbCo->prepare("SELECT priority FROM tasks WHERE id_tasks = :idtasks AND done = 0;");
+    $query->execute([
+        "idtasks" => $_GET['idtask']
+    ]);
+    $res = $query->fetch();
+    $prio = $res["priority"];
+}
 
 // var_dump($_GET);
 if(isset($_GET['action']) && $_GET['action'] === "done" && isset($_GET['idtask'])){
@@ -112,8 +128,31 @@ $action = "return";
 
 }
 
+else if(isset($_GET['action']) && $_GET['action'] === "add_theme" && isset($_GET['name_theme'])){
+
+    if(($_GET['name_theme']) != "" ) {
+        $query = $dbCo->prepare("INSERT INTO themes (name_theme) VALUES (:name_theme);");
+        $result = $query->execute([
+            "name_theme" => ($_GET['name_theme'])
+        ]);
+        $lastIndexTheme= $dbCo->lastInsertId();
+    };
+    
+    $dataThemes = [
+        'is-good' => $result,
+        'id-theme' => $lastIndexTheme
+    ];
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode($dataThemes);
+    exit;
+
+}
+
 $res = returnMessage();
 
-header("location:index.php$res");
-exit;
+if(isset($action)){
+    header("location:index.php$res");
+    exit;
+}
+
 ?>
