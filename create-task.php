@@ -31,32 +31,37 @@ $themes = $queryThemes->fetchAll();
 </div>
 
 <?php
-var_dump($_POST);
-// $_POST = array_map(recursiveStripTags($_POST), $_POST);
-
-// function recursiveStripTags(array|string $var) :array{
-//   recursiveStripTags($var);
-//   if(is_array($var)) 
-//   foreach($var as $v){
-//     strip_tags($v);
-//   }
-// }
+$_POST = recursiveStripTags($_POST);
+// var_dump($_POST['theme']);
 
 
-// $query1 = $dbCo->query("SELECT MAX(priority) AS max_prio FROM tasks WHERE id_users = 1;");
-// $res = $query1->fetch();
+$query1 = $dbCo->query("SELECT MAX(priority) AS max_prio FROM tasks WHERE id_users = 1;");
+$res = $query1->fetch();
 
-// if (isset($_POST['submit']) && verifyForm($_POST['description'], $_POST['date'], $_POST['color']) === true) {
-//   $query2 = $dbCo->prepare("INSERT INTO tasks (description, date_reminder, color, priority, id_users) VALUES
-//       (:description, :date, :color, :priority, :id);");
-//   $query2->execute([
-//     "description" => $_POST['description'],
-//     "date" => $_POST['date'],
-//     "color" => $_POST['color'],
-//     "priority" => $res['max_prio'] + 1,
-//     "id" => 1
-//   ]);
-// }
+if (isset($_POST['submit']) && verifyForm($_POST['description'], $_POST['date'], $_POST['color']) === true) {
+  $query2 = $dbCo->prepare("INSERT INTO tasks (description, date_reminder, color, priority, id_users) VALUES
+      (:description, :date, :color, :priority, :id);");
+  $query2->execute([
+    "description" => $_POST['description'],
+    "date" => $_POST['date'],
+    "color" => $_POST['color'],
+    "priority" => $res['max_prio'] + 1,
+    "id" => 1
+  ]);
+  $lastIndexTask = $dbCo->lastInsertId();
+}
+
+if(isset($_POST['theme'])){
+  foreach($_POST['theme'] as $theme){
+    $query2 = $dbCo->prepare("INSERT INTO have_theme (id_tasks, id_themes) VALUES
+      (:idTask, :idTheme);");
+    $query2->execute([
+      "idTask" => $lastIndexTask,
+      "idTheme" => intval($theme)
+  ]);
+  // var_dump(intval($theme));
+  }
+}
 
 ?>
 

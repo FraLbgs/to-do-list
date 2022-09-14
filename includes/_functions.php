@@ -67,8 +67,6 @@ function returnMessage() : string {
 
 function displayThemes(array $array):string {
     $themes = "<fieldset><legend>Choisissez vos thèmes</legend>";
-
-    // print_r($array);
     
     foreach($array as $t){
         $themes.= "<label>
@@ -77,8 +75,12 @@ function displayThemes(array $array):string {
     }
     
     return $themes."</fieldset>";
-
- 
 }
+
+function recursiveStripTags(array|string $var) :array|string {
+  if(!is_array($var)) return strip_tags($var);
+  return array_map("recursiveStripTags", $var);  
+}
+
 
 ?>
